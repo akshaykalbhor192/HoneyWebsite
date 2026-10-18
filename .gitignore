@@ -1,0 +1,8 @@
+node_modules
+.next
+.env*.local
+scrollcraft/builds/*/node_modules
+scrollcraft/builds/*/lab/*.jpg
+.next-prod
+scrollcraft/builds/*/lab/*.png
+scrollcraft/builds/*/lab/_*.html

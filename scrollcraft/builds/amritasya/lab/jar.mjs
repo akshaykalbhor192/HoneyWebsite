@@ -1,0 +1,10 @@
+import { chromium } from "playwright-core";
+const [q, out, w, h] = [process.argv[2], process.argv[3], +(process.argv[4] || 800), +(process.argv[5] || 1000)];
+const b = await chromium.launch({ executablePath: "C:/Program Files/Google/Chrome/Application/chrome.exe", args: ["--use-angle=swiftshader", "--enable-unsafe-swiftshader"] });
+const p = await b.newPage({ viewport: { width: w, height: h }, deviceScaleFactor: 1 });
+const errs = []; p.on("pageerror", e => errs.push(e.message)); p.on("console", m => m.type() === "error" && errs.push(m.text()));
+await p.goto("http://localhost:3000/render?" + q, { waitUntil: "networkidle", timeout: 120000 });
+await p.waitForTimeout(5000);
+await p.screenshot({ path: out, omitBackground: true });
+console.log(out, errs.slice(0, 3));
+await b.close();
